@@ -13,6 +13,7 @@
 
 class Frigate:
 	"""Player boat."""
+
 	def __init__(self, name):
 		"""Initializes a player's frigate."""
 		self.name = name
@@ -26,6 +27,8 @@ class Frigate:
 	def fire(self, opponent):
 		"""Fires cannons at opponent."""
 		self.ammo -= 1
+		if opponent.maneuvered:
+			return 0
 		if self.aimed or opponent.fouled:
 			return self.attack * 2
 		return self.attack
@@ -38,5 +41,7 @@ class Frigate:
 		"""Reloads all three cannons."""
 		self.ammo = 3
 
-	def aim(self):
+	def aim(self, opponent):
+		if opponent.maneuvered:
+			return
 		self.aimed = True
