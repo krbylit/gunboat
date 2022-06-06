@@ -5,52 +5,107 @@
 
 import discord
 from discord.ext import commands
-import random
-from RealEstateGame import *
+from gunboat import *
 
 client = discord.Client()
 bot = commands.Bot(command_prefix="$")
-game = RealEstateGame()
-rents = [
-    50,
-    50,
-    50,
-    75,
-    75,
-    75,
-    100,
-    100,
-    100,
-    150,
-    150,
-    150,
-    200,
-    200,
-    200,
-    250,
-    250,
-    250,
-    300,
-    300,
-    300,
-    350,
-    350,
-    350,
-]
+
+game = {
+    'players': {},
+    'turn': 1,
+    'turn_log': {
+        'turn_1': {},
+        },
+    }
 
 
 @bot.command(
-    help="Starts a game of Minipoly with 24 spaces and a starting GO space. Rent "
-    "prices for spaces range from $50-$350.",
-    brief="Starts a game of Minipoly",
-    name="start",  # optional shorter command call, prefix w/ $ in chat to execute
+    help="Challenge the channel members to a game of Gunboat. The first to accept with '$accept' will become your "
+         "opponent",
+    brief="Challenge the channel to a game of Gunboat.",
+    name="challenge",  # optional shorter command call, prefix w/ $ in chat to execute
 )
-async def play_minipoly(ctx):
-    """Creates a Minipoly game."""
+async def challenge(ctx):
+    """Challenges the channel to a game of Gunboat."""
     author = ctx.message.author
     user_name = author.name
-    game.create_spaces(50, rents)
-    await ctx.channel.send(f"{user_name} started a game of Minipoly!")
+    game['players'][f'{user_name}'] = Frigate(user_name)
+    await ctx.channel.send(f"{user_name} boarded a frigate and challenged you!")
+
+@bot.command(
+    help="Accepts the challenge to a game of Gunboat.",
+    brief="Accept the challenge!",
+    name="accept",  # optional shorter command call, prefix w/ $ in chat to execute
+    )
+async def accept(ctx):
+    """Accepts the challenge to a game of Gunboat."""
+    author = ctx.message.author
+    user_name = author.name
+    for player in game['players']:  # for getting opposing player's name, look into better implementation
+        if player != user_name:
+            opponent = player
+    game['players'][f'{user_name}'] = Frigate(user_name)
+    await ctx.channel.send(f"{user_name} accepted {opponent}'s challenge!")
+
+
+@bot.command(
+    help="Command your crew to fire cannons. Deals 1 damage normally, takes 1 ammo. Can be dodged if the opponent "
+         "maneuvers during "
+         "the same turn.",
+    brief="Fire cannons!",
+    name="fire",  # optional shorter command call, prefix w/ $ in chat to execute
+    )
+async def fire(ctx):
+    """Accepts the challenge to a game of Gunboat."""
+    author = ctx.message.author
+    user_name = author.name
+    await turn_actions(user_name, 'fire')
+    await ctx.channel.send(f"{user_name} accepted {game['players']['challenger'].name}'s challenge!")
+
+
+@bot.command(
+    help="Command your crew to perform evasive maneuvers. Dodges cannon fire if fired upon during the same turn. "
+         "Maneuvering 3 turns in a row puts you on their broadside, though, and you're susceptible to a critical hit.",
+    brief="Evade!",
+    name="man",  # optional shorter command call, prefix w/ $ in chat to execute
+    )
+async def maneuver(ctx):
+    """Accepts the challenge to a game of Gunboat."""
+    author = ctx.message.author
+    user_name = author.name
+    player = game['players'][user_name]
+    player.maneuvered = True
+    await turn_actions(ctx, user_name, 'maneuver')
+    await ctx.channel.send(f"{user_name} accepted {game['players']['challenger'].name}'s challenge!")
+
+
+@bot.command(
+    help="Command your crew to reload, replenishing all 3 of your cannon shots.",
+    brief="Reload!",
+    name="rel",  # optional shorter command call, prefix w/ $ in chat to execute
+    )
+async def reload(ctx):
+    """Accepts the challenge to a game of Gunboat."""
+    author = ctx.message.author
+    user_name = author.name
+    player = game['players'][user_name]
+    player.maneuvered = True
+    await turn_actions(ctx, user_name, 'maneuver')
+    await ctx.channel.send(f"{user_name} accepted {game['players']['challenger'].name}'s challenge!")
+
+
+async def turn_actions(ctx, player, action):
+    """Creates stack of actions taken by each player."""
+    turn = game['turn']
+    game['turn_log'][f'turn_{turn}'][player] = action
+    await ctx.channel.send(f"{user_name} accepted {game['players']['challenger'].name}'s challenge!")
+
+
+async def turn_end(ctx, player, action):
+    """Performs end of turn cleanup."""
+    game['turn'] += 1
+
+    await ctx.channel.send(f"{user_name} accepted {game['players']['challenger'].name}'s challenge!")
 
 
 @bot.command(

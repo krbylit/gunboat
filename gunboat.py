@@ -11,7 +11,7 @@
 # 	ship is reloading or aiming)
 
 
-class Frigate():
+class Frigate:
 	"""Player boat."""
 	def __init__(self, name):
 		"""Initializes a player's frigate."""
@@ -19,5 +19,24 @@ class Frigate():
 		self.health = 3
 		self.ammo = 3
 		self.attack = 1
+		self.maneuvered = False  # status set by maneuver action, cleared after 1 turn
 		self.aimed = False  # aiming status, set if successful aim action taken, dmg calc looks here for crit
 		self.fouled = False  # status set with 3 maneuvers in a row, dmg calc looks here for crit
+
+	def fire(self, opponent):
+		"""Fires cannons at opponent."""
+		self.ammo -= 1
+		if self.aimed or opponent.fouled:
+			return self.attack * 2
+		return self.attack
+
+	def maneuver(self):
+		"""Maneuvers player ship to dodge attacks."""
+		self.maneuvered = True
+
+	def reload(self):
+		"""Reloads all three cannons."""
+		self.ammo = 3
+
+	def aim(self):
+		self.aimed = True
