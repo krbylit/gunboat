@@ -109,7 +109,6 @@ async def aim(ctx):
 	author = ctx.message.author
 	user_name = author.name
 	player = game['players'][user_name]
-	player.aim()
 	await turn_actions(ctx, player, 'aim')
 	await ctx.channel.send(f"{user_name} accepted {game['players']['challenger'].name}'s challenge!")
 
@@ -121,7 +120,7 @@ async def turn_actions(ctx, player, action):
 	await ctx.channel.send(f"{user_name} accepted {game['players']['challenger'].name}'s challenge!")
 
 
-async def turn_end(ctx):
+async def turn_end(ctx):  # need to add message feedback for game states
 	"""Performs end of turn cleanup."""
 	turn = game['turn']
 	player_1 = list(game['turn_log'][f'turn_{turn}'].values())[0]  # listify values of current turn to index into
@@ -132,9 +131,31 @@ async def turn_end(ctx):
 
 	if player_1_action == 'fire':
 		player_2.health -= player_1.fire(player_2)
+		player_1.aimed = False
+
+	if player_2_action == 'fire':
+		player_1.health -= player_2.fire(player_1)
+		player_2.aimed = False
+
+	if player_1_action == 'aim':  # provide message feedback for missed aim
+		if player_2.maneuvered:
+			return
+		player_1.aim()
+
+	if player_2_action == 'aim':
+		if player_1.maneuvered:
+			return
+		player_2.aim()
+
+	# need to add handling/checking for 3 maneuvers in a row
+
+	player_1.maneuvered = False
+	player_2.maneuvered = False
+	player_1.fouled = False
+	player_2.fouled = False
 
 	game['turn'] += 1
 	await ctx.channel.send(f"{user_name} accepted {game['players']['challenger'].name}'s challenge!")
 
 
-bot.run(SECRET_KEY)
+bot.run('')

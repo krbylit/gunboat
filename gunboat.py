@@ -41,7 +41,5 @@ class Frigate:
 		"""Reloads all three cannons."""
 		self.ammo = 3
 
-	def aim(self, opponent):
-		if opponent.maneuvered:
-			return
+	def aim(self):
 		self.aimed = True
