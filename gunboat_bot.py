@@ -34,7 +34,7 @@ async def challenge(ctx):
 	user_name = author.name
 	game['players'][f'{user_name}'] = Frigate(user_name)
 	await ctx.channel.send(f"{user_name} boarded a frigate and challenged you!")
-	await ctx.channel.send(rf"""
+	await ctx.channel.send(rf"""```
               |    |    |
              )_)  )_)  )_)
             )___))___))___)\
@@ -45,7 +45,7 @@ async def challenge(ctx):
     ^^^^      ^^^^     ^^^    ^^
          ^^^^      ^^^
         {user_name} boards a frigate!
-	"""
+	```"""
 
 
 @bot.command(
@@ -62,7 +62,7 @@ async def accept(ctx):
 			opponent = player
 	game['players'][f'{user_name}'] = Frigate(user_name)
 	await ctx.channel.send(f"{user_name} accepted {opponent}'s challenge!")
-	await ctx.channel.send(rf"""
+	await ctx.channel.send(rf"""```
               |    |    |
              )_)  )_)  )_)
             )___))___))___)\
@@ -73,7 +73,7 @@ async def accept(ctx):
     ^^^^      ^^^^     ^^^    ^^
          ^^^^      ^^^
         {user_name} boards a frigate!
-	"""
+	```"""
 
 
 @bot.command(
@@ -90,7 +90,7 @@ async def fire(ctx):
 	player = game['players'][user_name]
 	await turn_actions(ctx, player, 'fire')
 	await ctx.channel.send(f"{user_name} accepted {game['players']['challenger'].name}'s challenge!")
-	await ctx.channel.send(rf"""
+	await ctx.channel.send(rf"""```
                   __
                  /  \
            .-.  |    |
@@ -101,8 +101,8 @@ async def fire(ctx):
   |     /_\'
    \    \_/
     -----
- {user_name} fires their cannons!
-""")
+ {user_name} fires their cannon!
+```""")
 
 
 @bot.command(
@@ -119,7 +119,7 @@ async def maneuver(ctx):
 	player.maneuver()
 	await turn_actions(ctx, player, 'maneuver')
 	await ctx.channel.send(f"{user_name} accepted {game['players']['challenger'].name}'s challenge!")
-	await ctx.channel.send(rf"""
+	await ctx.channel.send(rf"""```
      ^  +~+~~
     ^   )`.).
       )``)``) .~~
@@ -127,8 +127,8 @@ async def maneuver(ctx):
     |-).-).-'_'-/
  ~~~\ `o-o-o'  /~~~~~~~~~~~~~~~~~
   ~~~'---.____/~~~~~~~~~~~~~~
-	 {user_name} maneuvers!
-""")
+{user_name} performs an evasive maneuver!
+```""")  # MAY NEED TO GET RID OF ``` CODE FORMATTING
 
 
 @bot.command(
