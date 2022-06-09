@@ -34,6 +34,18 @@ async def challenge(ctx):
 	user_name = author.name
 	game['players'][f'{user_name}'] = Frigate(user_name)
 	await ctx.channel.send(f"{user_name} boarded a frigate and challenged you!")
+	await ctx.channel.send(rf"""
+              |    |    |
+             )_)  )_)  )_)
+            )___))___))___)\
+           )____)____)_____)\\
+         _____|____|____|____\\\__
+---------\                   /---------
+  ^^^^^ ^^^^^^^^^^^^^^^^^^^^^
+    ^^^^      ^^^^     ^^^    ^^
+         ^^^^      ^^^
+        {user_name} boards a frigate!
+	"""
 
 
 @bot.command(
@@ -50,6 +62,18 @@ async def accept(ctx):
 			opponent = player
 	game['players'][f'{user_name}'] = Frigate(user_name)
 	await ctx.channel.send(f"{user_name} accepted {opponent}'s challenge!")
+	await ctx.channel.send(rf"""
+              |    |    |
+             )_)  )_)  )_)
+            )___))___))___)\
+           )____)____)_____)\\
+         _____|____|____|____\\\__
+---------\                   /---------
+  ^^^^^ ^^^^^^^^^^^^^^^^^^^^^
+    ^^^^      ^^^^     ^^^    ^^
+         ^^^^      ^^^
+        {user_name} boards a frigate!
+	"""
 
 
 @bot.command(
@@ -66,6 +90,19 @@ async def fire(ctx):
 	player = game['players'][user_name]
 	await turn_actions(ctx, player, 'fire')
 	await ctx.channel.send(f"{user_name} accepted {game['players']['challenger'].name}'s challenge!")
+	await ctx.channel.send(rf"""
+                  __
+                 /  \
+           .-.  |    |
+   *    _.-'  \  \__/
+    \.-'       \
+   /          _/
+  |      _  /"
+  |     /_\'
+   \    \_/
+    -----
+ {user_name} fires their cannons!
+""")
 
 
 @bot.command(
@@ -82,6 +119,16 @@ async def maneuver(ctx):
 	player.maneuver()
 	await turn_actions(ctx, player, 'maneuver')
 	await ctx.channel.send(f"{user_name} accepted {game['players']['challenger'].name}'s challenge!")
+	await ctx.channel.send(rf"""
+     ^  +~+~~
+    ^   )`.).
+      )``)``) .~~
+      ).-'.-')|)
+    |-).-).-'_'-/
+ ~~~\ `o-o-o'  /~~~~~~~~~~~~~~~~~
+  ~~~'---.____/~~~~~~~~~~~~~~
+	 {user_name} maneuvers!
+""")
 
 
 @bot.command(
