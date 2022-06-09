@@ -45,7 +45,7 @@ async def challenge(ctx):
     ^^^^      ^^^^     ^^^    ^^
          ^^^^      ^^^
         {user_name} boards a frigate!
-	```"""
+	```"""  # MOST OF THESE MUST BE MOVED TO END UP TURN CLEANUP
 
 
 @bot.command(
