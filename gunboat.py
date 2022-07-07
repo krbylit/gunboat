@@ -7,7 +7,8 @@
 # MANEUVER: dodges a fire action on same turn
 # 	3 maneuvers in a row opens you up to a critical hit (2x dmg)
 # AIM: takes aim to prepare critical hit for next fire (2x dmg)
-# 	aim broken if fired upon while taking aim or target ship maneuvers during aim (effectively only works if other
+# 	aim broken if fired upon while taking aim or target ship maneuvers during
+# 	aim (effectively only works if other
 # 	ship is reloading or aiming)
 
 
@@ -20,10 +21,14 @@ class Frigate:
         self.health = 3
         self.ammo = 3
         self.attack = 1
-        self.maneuvered = False  # status set by maneuver action, cleared after 1 turn
-        self.aimed = False  # aiming status, set if successful aim action taken, dmg calc looks here for crit
+        self.maneuvered = False  # status set by maneuver action, cleared
+        # after 1 turn
+        self.aimed = False  # aiming status, set if successful aim action
+        # taken, dmg calc looks here for crit
         self.fouled = (
-            False  # status set with 3 maneuvers in a row, dmg calc looks here for crit
+            False
+            # status set with 3 maneuvers in a row, dmg calc looks here for
+            # crit
         )
         # maybe using past action attribute will help tracking 3 maneuvers
         self.maneuvers = 0  # track maneuvers in a row
