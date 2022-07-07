@@ -47,7 +47,6 @@ async def challenge(ctx):
         {user_name} boards a frigate!
 	```"""  # MOST OF THESE MUST BE MOVED TO END UP TURN CLEANUP
 
-
 @bot.command(
 	help="Accepts the challenge to a game of Gunboat.",
 	brief="Accept the challenge!",
@@ -74,7 +73,6 @@ async def accept(ctx):
          ^^^^      ^^^
         {user_name} boards a frigate!
 	```"""
-
 
 @bot.command(
 	help="Command your crew to fire cannons. Deals 1 damage normally, takes 1 ammo. Can be dodged if the opponent "
@@ -359,7 +357,6 @@ async def fire(ctx):
 
 ")
 
-
 @bot.command(
 	help="Command your crew to perform evasive maneuvers. Dodges cannon fire if fired upon during the same turn. "
 		 "Maneuvering 3 turns in a row puts you on their broadside, though, and you're susceptible to a critical hit.",
@@ -399,7 +396,6 @@ async def reload(ctx):
 	player.reload()
 	await turn_actions(ctx, player, 'reload')
 	await ctx.channel.send(f"{user_name} accepted {game['players']['challenger'].name}'s challenge!")
-
 
 @bot.command(
 	help="Command your crew to reload, replenishing all 3 of your cannon shots.",
